@@ -24,7 +24,7 @@
             <h5 class="card-title"> {{i.nombre}} ${{i.precio}} </h5>
 
             <p class="card-text"> {{i.descripcion}} </p>
-            <a href="#" class="btn btn-primary">Comprar</a>
+            <a href="#" class="btn btn-primary" data-toggle="modal" (click)="getObjectToPay(i)" data-target="#exampleModalPay">Comprar</a>
           </div>
         </div>
       </div>
@@ -40,16 +40,16 @@
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Nuevo Producto</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Realizar Pago</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
 
-          <form [formGroup]="form_producto" class="form-group"> 
+          <form [formGroup]="form_producto" class="form-group">
             <div class="row">
-              
+
               <div class="col">
                 <label>Nombre:</label>
                 <input type="text" formControlName='nombre' class="form-control" placeholder="nombre">
@@ -65,12 +65,14 @@
 
               <div class="col">
                 <label>descripcion:</label>
-                <textarea class="form-control" formControlName='descripcion' id="exampleFormControlTextarea1" rows="3"></textarea>
+                <textarea class="form-control" formControlName='descripcion' id="exampleFormControlTextarea1"
+                  rows="3"></textarea>
               </div>
 
               <div class="col">
                 <label>URL:</label>
-                <input type="text" class="form-control" formControlName='url' placeholder="https://imagenes.com/perritos.jpg">
+                <input type="text" class="form-control" formControlName='url'
+                  placeholder="https://imagenes.com/perritos.jpg">
               </div>
 
             </div>
@@ -78,15 +80,44 @@
             <div class="row">
 
               <div class="col">
-                <button data-dismiss="modal" class="btn btn-success btn-block" (click)="crearProducto()">Agregar</button>
+                <button data-dismiss="modal" class="btn btn-success btn-block"
+                  (click)="crearProducto()">Agregar</button>
               </div>
 
             </div>
 
           </form>
-         
+
         </div>
-       
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal  PAGO -->
+  <div class="modal fade" id="exampleModalPay" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelPay"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Pagar Producto</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form novalidate (ngSubmit)="createToken()" [formGroup]="stripeTest">
+            <input class="form-control" type="text" formControlName="name" placeholder="Jane Doe">
+            <br>
+            <ngx-stripe-card [options]="cardOptions" [elementsOptions]="elementsOptions"></ngx-stripe-card>
+            <br>
+            <button class="btn btn-success btn-block" type="submit">
+              Pagar
+            </button>
+          </form>
+
+        </div>
+
       </div>
     </div>
   </div>
